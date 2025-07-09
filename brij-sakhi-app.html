@@ -703,19 +703,19 @@
                 <button class="btn-primary" onclick="showJapaScreen()" style="margin-top: 20px;">Back to Japa</button>
             </div>
 
-            <!-- Cart Screen (placeholder) -->
-            <div id="cartScreen" class="hidden">
+            <!-- Cart Screen -->
+            <div id="cartScreen" style="display: none;">
                 <div class="header">
                     <h2>🛒 Shopping Cart</h2>
                 </div>
-                <div style="padding: 20px; text-align: center;">
-                    <p>Your cart items will appear here</p>
+                <div style="padding: 20px;">
                     <div id="cartItems"></div>
+                    <button class="btn-primary" onclick="showStore()" style="margin-top: 20px;">Continue Shopping</button>
                 </div>
             </div>
 
-            <!-- Orders Screen (placeholder) -->
-            <div id="ordersScreen" class="hidden">
+            <!-- Orders Screen -->
+            <div id="ordersScreen" style="display: none;">
                 <div class="header">
                     <h2>📦 My Orders</h2>
                 </div>
@@ -724,8 +724,8 @@
                 </div>
             </div>
 
-            <!-- Categories Screen (placeholder) -->
-            <div id="categoriesScreen" class="hidden">
+            <!-- Categories Screen -->
+            <div id="categoriesScreen" style="display: none;">
                 <div class="header">
                     <h2>📂 Categories</h2>
                 </div>
@@ -869,8 +869,8 @@
 
         function hideAllScreens() {
             document.getElementById('storeContent').style.display = 'none';
-            document.getElementById('cartScreen').classList.add('hidden');
-            document.getElementById('ordersScreen').classList.add('hidden');
+            document.getElementById('cartScreen').style.display = 'none';
+            document.getElementById('ordersScreen').style.display = 'none';
             document.getElementById('categoriesScreen').style.display = 'none';
             document.getElementById('japaScreen').style.display = 'none';
             document.getElementById('passbookScreen').style.display = 'none';
@@ -901,7 +901,7 @@
             // Check if completed a mala (108 counts)
             if (currentCount % 108 === 0) {
                 currentMalaCount = Math.floor(currentCount / 108);
-                dailyMala = currentMalaCount;
+                dailyMala = Math.max(dailyMala, currentMalaCount);
                 weeklyMala = Math.max(weeklyMala, dailyMala);
                 monthlyMala = Math.max(monthlyMala, dailyMala);
                 yearlyMala = Math.max(yearlyMala, dailyMala);
@@ -989,7 +989,7 @@
         function updateCartDisplay() {
             const cartContainer = document.getElementById('cartItems');
             if (cartItems.length === 0) {
-                cartContainer.innerHTML = '<p>Your cart is empty</p>';
+                cartContainer.innerHTML = '<p style="text-align: center; color: #666; margin: 40px 0;">Your cart is empty<br><span style="font-size: 3rem;">🛒</span></p>';
                 return;
             }
             
@@ -1072,6 +1072,14 @@
                 updateStats();
                 document.getElementById('counterText').textContent = currentCount;
                 document.getElementById('currentMala').textContent = Math.floor(currentCount / 108) + ' Mala';
+                
+                // Update progress ring on load
+                const progress = (currentCount % 108) / 108;
+                const circumference = 2 * Math.PI * 100;
+                const progressRing = document.querySelector('.progress-ring-circle');
+                if (progressRing) {
+                    progressRing.style.strokeDasharray = `${progress * circumference} ${circumference}`;
+                }
             }
             
             // Check if user is already logged in
@@ -1088,8 +1096,12 @@
 
         // Make the entire japa screen tappable
         document.addEventListener('click', function(e) {
-            if (e.target.closest('#japaScreen') && !e.target.closest('.japa-controls')) {
+            if (e.target.closest('#japaScreen') && 
+                !e.target.closest('.japa-controls') && 
+                !e.target.closest('button') &&
+                document.getElementById('japaScreen').style.display !== 'none') {
                 incrementCounter();
+                e.preventDefault();
             }
         });
     </script>

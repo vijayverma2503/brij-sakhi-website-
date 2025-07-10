@@ -1,0 +1,35 @@
+{
+  "name": "Brij Sakhi - Your Spiritual Companion",
+  "short_name": "Brij Sakhi",
+  "description": "Your spiritual companion for naam jap and devotion",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a90e2",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/assets/app_icon-BQZNSwaM.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/app_icon-BQZNSwaM.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "spirituality", "religion"],
+  "screenshots": [
+    {
+      "src": "/assets/app_icon-BQZNSwaM.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}
